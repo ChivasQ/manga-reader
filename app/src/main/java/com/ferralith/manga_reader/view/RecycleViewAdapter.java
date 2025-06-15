@@ -1,13 +1,16 @@
 package com.ferralith.manga_reader.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.ferralith.manga_reader.AboutMangaActivity;
 import com.ferralith.manga_reader.R;
 import com.ferralith.manga_reader.models.MangaItem;
 
@@ -15,8 +18,8 @@ import java.util.List;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
-    Context context;
-    List<MangaItem> mangaItemList;
+    private Context context;
+    private List<MangaItem> mangaItemList;
 
     public RecycleViewAdapter(Context context, List<MangaItem> mangaItemList) {
         this.context = context;
@@ -35,6 +38,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewHolder> 
         Glide.with(holder.itemView.getContext())
                 .load(mangaItemList.get(position).coverUrl)
                 .into(holder.imageCover);
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), AboutMangaActivity.class);
+            intent.putExtra("imageCover", mangaItemList.get(holder.getAdapterPosition()).getCoverUrl());
+            intent.putExtra("textTitle", mangaItemList.get(holder.getAdapterPosition()).getTitle());
+
+            view.getContext().startActivity(intent);
+        });
     }
 
     @Override

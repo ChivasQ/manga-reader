@@ -1,7 +1,9 @@
 package com.ferralith.manga_reader;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.ferralith.manga_reader.models.MangaItem;
 import com.ferralith.manga_reader.parser.Parser;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewManga);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        RecycleViewAdapter adapter = new RecycleViewAdapter(getApplicationContext(), mangaList);
+        RecycleViewAdapter adapter = new RecycleViewAdapter(this, mangaList);
         recyclerView.setAdapter(adapter);
         Log.d("MANGA", "AWWWWWWWWWWW");
         Parser.ParseAsync(list -> {
@@ -57,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
             mangaList.addAll(list);
             adapter.notifyDataSetChanged();
         });
+    }
+
+    public void startNewActivity(View v) {
+        Intent intent = new Intent(this, AboutMangaActivity.class);
+        startActivity(intent);
     }
 
 }

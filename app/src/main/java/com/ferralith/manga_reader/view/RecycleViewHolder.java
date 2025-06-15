@@ -14,11 +14,11 @@ public class RecycleViewHolder extends RecyclerView.ViewHolder {
     ImageView imageCover;
     TextView textTitle;
 
-
-
     public RecycleViewHolder(@NonNull View itemView) {
         super(itemView);
         imageCover = itemView.findViewById(R.id.imageCover);
         textTitle = itemView.findViewById(R.id.textTitle);
     }
+
+
 }
