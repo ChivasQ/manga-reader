@@ -1,9 +1,11 @@
 package com.ferralith.manga_reader;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.ferralith.manga_reader.models.MangaItem;
 import com.ferralith.manga_reader.parser.Parser;
+import com.ferralith.manga_reader.view.RecycleViewAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +25,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    //private MangaAdapter adapter;
     private RecyclerView recyclerView;
+
+
     private List<MangaItem> mangaList = new ArrayList<>();
 
     @Override
@@ -44,15 +48,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         recyclerView = findViewById(R.id.recyclerViewManga);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //adapter = new MangaAdapter(mangaList);
-        //recyclerView.setAdapter(adapter);
-
-//        Parser.ParseAsync(list -> {
-//            mangaList.clear();
-//            mangaList.addAll(list);
-//            adapter.notifyDataSetChanged();
-//        });
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        RecycleViewAdapter adapter = new RecycleViewAdapter(getApplicationContext(), mangaList);
+        recyclerView.setAdapter(adapter);
+        Log.d("MANGA", "AWWWWWWWWWWW");
+        Parser.ParseAsync(list -> {
+            mangaList.clear();
+            mangaList.addAll(list);
+            adapter.notifyDataSetChanged();
+        });
     }
 
 }

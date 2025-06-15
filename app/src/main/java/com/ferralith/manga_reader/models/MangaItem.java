@@ -8,4 +8,12 @@ public class MangaItem {
         this.title = title;
         this.coverUrl = coverUrl;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
 }

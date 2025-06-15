@@ -42,11 +42,12 @@ public class Parser {
                 String json = response.toString();
 
                 JSONObject jsonObject = new JSONObject(json);
-                JSONArray items = jsonObject.getJSONArray("items");
+                Log.d("MANGA", jsonObject.toString());
+                JSONArray items = jsonObject.getJSONArray("data");
                 for (int i = 0; i < items.length(); i++) {
                     JSONObject manga = items.getJSONObject(i);
                     String title = manga.getString("rus_name");
-                    String cover = manga.getString("cover");
+                    String cover = manga.getJSONObject("cover").getString("default");
 
                     result.add(new MangaItem(title, cover));
                 }
