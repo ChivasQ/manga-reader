@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.ferralith.manga_reader.models.MangaItem;
-import com.ferralith.manga_reader.parser.Parser;
+import com.ferralith.manga_reader.api.ApiProvider;
+import com.ferralith.manga_reader.api.models.MangaListResponse;
+import com.ferralith.manga_reader.api.models.MangaItem;
 import com.ferralith.manga_reader.view.RecycleViewAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,13 +17,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ferralith.manga_reader.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,10 +58,25 @@ public class MainActivity extends AppCompatActivity {
         RecycleViewAdapter adapter = new RecycleViewAdapter(this, mangaList);
         recyclerView.setAdapter(adapter);
         Log.d("MANGA", "AWWWWWWWWWWW");
-        Parser.ParseAsync(list -> {
-            mangaList.clear();
-            mangaList.addAll(list);
-            adapter.notifyDataSetChanged();
+
+        ApiProvider.getMangaApi().getMangaList(1, 50).enqueue(new Callback<MangaListResponse>() {
+            @Override
+            public void onResponse(Call<MangaListResponse> call, Response<MangaListResponse> response) {
+                if (response.isSuccessful()) {
+                    List<MangaItem> mangas = response.body().getData();
+                    for (int i = 0; i < mangas.size(); i++) {
+                        Log.d("MANGA", mangas.get(i).getCoverUrl());
+                    }
+                    mangaList.clear();
+                    mangaList.addAll(mangas);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MangaListResponse> call, Throwable t) {
+                Log.e("API", "Error: " + t.getMessage());
+            }
         });
     }
 

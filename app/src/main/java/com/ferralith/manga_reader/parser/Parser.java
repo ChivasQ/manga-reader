@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.ferralith.manga_reader.models.MangaItem;
+import com.ferralith.manga_reader.api.models.MangaItem;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,7 +49,7 @@ public class Parser {
                     String title = manga.getString("rus_name");
                     String cover = manga.getJSONObject("cover").getString("default");
 
-                    result.add(new MangaItem(title, cover));
+                    //result.add(new MangaItem(title, cover));
                 }
 
                 // Повернення результату на головний потік
