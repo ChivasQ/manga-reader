@@ -42,7 +42,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewHolder> 
             Intent intent = new Intent(view.getContext(), AboutMangaActivity.class);
             intent.putExtra("imageCover", mangaItemList.get(holder.getAdapterPosition()).getCoverUrl());
             intent.putExtra("textTitle", mangaItemList.get(holder.getAdapterPosition()).getTitle());
-            intent.putExtra("slug_url", mangaItemList.get(holder.getAdapterPosition()).slug_url);
+            intent.putExtra("slug_url", mangaItemList.get(holder.getAdapterPosition()).getSlug_url());
 
             view.getContext().startActivity(intent);
         });

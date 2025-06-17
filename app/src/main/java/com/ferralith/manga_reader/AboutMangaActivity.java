@@ -53,7 +53,7 @@ public class AboutMangaActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(bundle.getString("imageCover"))
                     .into(imageCover);
-            textTitle.setText(bundle.getString("textTitle"));
+            textTitle.setText(bundle.getString("textTitle") + " " + bundle.getString("slug_url"));
 
             ApiProvider.getCdnApi().getChapters("manga/"+bundle.getString("slug_url")+"/chapters")
                     .enqueue(new Callback<ResponseBody>() {
@@ -65,7 +65,7 @@ public class AboutMangaActivity extends AppCompatActivity {
                                     ChaptersResponce chaptersRes = new Gson().fromJson(json, ChaptersResponce.class);
 
                                     List<ChapterItem> chapters = chaptersRes.getData();
-                                    ChapterAdapter adapter = new ChapterAdapter(chapters);
+                                    ChapterAdapter adapter = new ChapterAdapter(chapters, bundle.getString("slug_url"));
 
                                     recyclerView.setLayoutManager(new LinearLayoutManager(AboutMangaActivity.this));
                                     recyclerView.setAdapter(adapter);

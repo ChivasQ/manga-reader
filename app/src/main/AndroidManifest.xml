@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Mangareader"
         tools:targetApi="31">
         <activity
+            android:name=".ReadActivity"
+            android:exported="false" />
+        <activity
             android:name=".AboutMangaActivity"
             android:exported="false" />
         <activity

@@ -1,5 +1,9 @@
 package com.ferralith.manga_reader.api.models;
 
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 public class MangaItem {
@@ -40,12 +44,5 @@ public class MangaItem {
 
     public Cover getCover() {
         return cover;
-    }
-
-    public static class Cover {
-        @SerializedName("thumbnail")
-        public String thumbnail;
-        @SerializedName("default")
-        public String default_;
     }
 }
