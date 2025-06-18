@@ -9,7 +9,7 @@ import com.ferralith.manga_reader.R;
 
 public class ViewPager2Holder extends RecyclerView.ViewHolder {
 
-    ImageView imageView;
+    public ImageView imageView;
 
     public ViewPager2Holder(@NonNull View itemView) {
         super(itemView);

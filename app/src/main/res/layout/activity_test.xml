@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/main">
 
-    <!-- подключение элемента app bar -->
-<!--    <include layout="@layout/fragment_home" />-->
-
-    <!-- подключение основного контента -->
-<!--    <include layout="@layout/activity_bottom_sheet_content" />-->
-
-    <!-- подключение нижнего экрана -->
     <include layout="@layout/bottom_sheet" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
