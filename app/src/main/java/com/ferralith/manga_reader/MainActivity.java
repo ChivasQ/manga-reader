@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.ferralith.manga_reader.api.ApiProvider;
 import com.ferralith.manga_reader.api.models.MangaListResponse;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private RecyclerView recyclerView;
-
+    private Button button;
 
     private List<MangaItem> mangaList = new ArrayList<>();
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         recyclerView = findViewById(R.id.recyclerViewManga);
+        button = findViewById(R.id.button);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         RecycleViewAdapter adapter = new RecycleViewAdapter(this, mangaList);
         recyclerView.setAdapter(adapter);
@@ -78,10 +80,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("API", "Error: " + t.getMessage());
             }
         });
+        button.setOnClickListener(this::startNewActivity);
     }
 
     public void startNewActivity(View v) {
-        Intent intent = new Intent(this, AboutMangaActivity.class);
+        Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
 

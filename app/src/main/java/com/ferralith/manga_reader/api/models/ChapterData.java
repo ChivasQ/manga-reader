@@ -7,22 +7,16 @@ import java.util.List;
 public class ChapterData {
     @SerializedName("id")
     public int id;
-
     @SerializedName("volume")
     public String volume;
-
     @SerializedName("number")
     public String number;
-
     @SerializedName("number_secondary")
     public String number_secondary;
-
     @SerializedName("name")
     public String name;
-
     @SerializedName("slug")
     public String slug;
-
     @SerializedName("pages")
     public List<ChapterPage> pages;
 }
