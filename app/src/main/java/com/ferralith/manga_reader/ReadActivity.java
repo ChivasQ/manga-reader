@@ -18,6 +18,7 @@ import com.ferralith.manga_reader.api.ApiProvider;
 import com.ferralith.manga_reader.api.models.ChapterPage;
 import com.ferralith.manga_reader.api.models.ChapterResponse;
 import com.ferralith.manga_reader.view.ViewPager2Adapter;
+import com.ferralith.manga_reader.view.read_mode.ReadWebToonModeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +28,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ReadActivity extends AppCompatActivity {
-    ViewPager2 viewPager2;
     List<String> mangaItemList = new ArrayList<>();
-    ViewPager2Adapter adapter;
-    RecyclerView recyclerView;
     boolean isWebtoonMode = false;
+
+    ViewPager2 viewPager2;
+    RecyclerView recyclerView;
     RadioButton radio_manga;
     RadioButton radio_webtoon;
+
+    ViewPager2Adapter viewPager2Adapter;
+    ReadWebToonModeAdapter webToonModeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +50,21 @@ public class ReadActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        recyclerView = findViewById(R.id.recyclerview);
+        // WEBTOON VIEW
+        recyclerView = findViewById(R.id.webtoon_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        webToonModeAdapter = new ReadWebToonModeAdapter(this, mangaItemList);
+        recyclerView.setAdapter(webToonModeAdapter);
+
+        // MANGA VIEW
+        viewPager2 = findViewById(R.id.manga_view);
+        viewPager2.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        viewPager2Adapter = new ViewPager2Adapter(this, mangaItemList);
+        viewPager2.setAdapter(viewPager2Adapter);
 
         radio_manga = findViewById(R.id.radio_manga);
         radio_webtoon = findViewById(R.id.radio_webtoon);
 
-        viewPager2 = findViewById(R.id.viewpager2);
-        adapter = new ViewPager2Adapter(this, mangaItemList, isWebtoonMode);
-        viewPager2.setAdapter(adapter);
-        recyclerView.setAdapter(adapter);
         setReadingMode(false);
 
         radio_manga.setOnClickListener(v -> setReadingMode(false));
@@ -63,6 +72,7 @@ public class ReadActivity extends AppCompatActivity {
 
         loadPages();
     }
+
     private void loadPages() {
         String slugUrl = getIntent().getStringExtra("slug_url");
         String chapterNumber = getIntent().getStringExtra("chapter_number");
@@ -77,7 +87,12 @@ public class ReadActivity extends AppCompatActivity {
                             for (ChapterPage page : response.body().data.pages) {
                                 mangaItemList.add("https://img33.imgslib.link" + page.url);
                             }
-                            adapter.notifyDataSetChanged();
+
+                            if (isWebtoonMode) {
+                                webToonModeAdapter.notifyDataSetChanged();
+                            } else {
+                                viewPager2Adapter.notifyDataSetChanged();
+                            }
                         }
                     }
 
@@ -90,8 +105,6 @@ public class ReadActivity extends AppCompatActivity {
 
     public void setReadingMode(boolean webtoonMode) {
         isWebtoonMode = webtoonMode;
-
-        adapter.setWebtoonMode(webtoonMode);
 
         if (webtoonMode) {
             recyclerView.setVisibility(View.VISIBLE);

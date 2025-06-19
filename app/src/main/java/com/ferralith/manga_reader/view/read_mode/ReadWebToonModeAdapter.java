@@ -1,11 +1,9 @@
-package com.ferralith.manga_reader.view;
+package com.ferralith.manga_reader.view.read_mode;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,28 +13,28 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.target.Target;
 import com.ferralith.manga_reader.R;
-import com.ferralith.manga_reader.ReadActivity;
-import com.ferralith.manga_reader.api.models.MangaItem;
+import com.ferralith.manga_reader.view.ViewPager2Holder;
 
 import java.util.List;
-public class ViewPager2Adapter extends RecyclerView.Adapter<ViewPager2Holder> {
+
+public class ReadWebToonModeAdapter extends RecyclerView.Adapter<ReadWebToonModeHolder>{
     private final Context context;
     private final List<String> pageList;
 
-    public ViewPager2Adapter(Context context, List<String> pageList) {
+    public ReadWebToonModeAdapter(Context context, List<String> pageList) {
         this.context = context;
         this.pageList = pageList;
     }
 
     @NonNull
     @Override
-    public ViewPager2Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_page, parent, false);
-        return new ViewPager2Holder(view);
+    public ReadWebToonModeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.webtoon_page, parent, false);
+        return new ReadWebToonModeHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewPager2Holder holder, int position) {
+    public void onBindViewHolder(@NonNull ReadWebToonModeHolder holder, int position) {
         String url = pageList.get(position);
 
         GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder()
@@ -45,7 +43,7 @@ public class ViewPager2Adapter extends RecyclerView.Adapter<ViewPager2Holder> {
 
         Glide.with(holder.itemView.getContext())
                 .load(glideUrl)
-                .override(Target.SIZE_ORIGINAL)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(holder.imageView);
     }
 

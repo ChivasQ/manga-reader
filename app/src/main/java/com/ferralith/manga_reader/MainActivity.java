@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private RecyclerView recyclerView;
     private Button button;
-
     private List<MangaItem> mangaList = new ArrayList<>();
+    private RecycleViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
@@ -54,14 +53,29 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        recyclerView = findViewById(R.id.recyclerViewManga);
         button = findViewById(R.id.button);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        RecycleViewAdapter adapter = new RecycleViewAdapter(this, mangaList);
-        recyclerView.setAdapter(adapter);
-        Log.d("MANGA", "AWWWWWWWWWWW");
 
-        ApiProvider.getMangaApi().getMangaList(1, 50).enqueue(new Callback<MangaListResponse>() {
+        recyclerView = findViewById(R.id.recyclerViewManga);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        adapter = new RecycleViewAdapter(this, mangaList);
+        recyclerView.setAdapter(adapter);
+
+        loadPages();
+
+        button.setOnClickListener(this::startNewActivity);
+    }
+
+    public void startNewActivity(View v) {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
+
+    private void loadPages() {
+        ApiProvider
+        .getMangaApi()
+        .getMangaList(1, 20)
+        .enqueue(new Callback<MangaListResponse>()
+        {
             @Override
             public void onResponse(Call<MangaListResponse> call, Response<MangaListResponse> response) {
                 if (response.isSuccessful()) {
@@ -80,12 +94,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("API", "Error: " + t.getMessage());
             }
         });
-        button.setOnClickListener(this::startNewActivity);
     }
-
-    public void startNewActivity(View v) {
-        Intent intent = new Intent(this, TestActivity.class);
-        startActivity(intent);
-    }
-
 }
