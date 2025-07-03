@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private RecyclerView recyclerView;
-    private Button button;
     private List<MangaItem> mangaList = new ArrayList<>();
     private RecycleViewAdapter adapter;
 
@@ -53,16 +52,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        button = findViewById(R.id.button);
-
         recyclerView = findViewById(R.id.recyclerViewManga);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new RecycleViewAdapter(this, mangaList);
         recyclerView.setAdapter(adapter);
 
         loadPages();
-
-        button.setOnClickListener(this::startNewActivity);
     }
 
     public void startNewActivity(View v) {

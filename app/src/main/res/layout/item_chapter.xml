@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="26dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="?attr/selectableItemBackground"> <TextView
+    android:id="@+id/chapterTitle"
+    android:layout_width="match_parent"
+    android:layout_height="24dp"
+    android:paddingStart="2dp"
+    android:paddingEnd="26dp" android:textColor="#000"
+    android:gravity="center_vertical" android:layout_centerVertical="true" tools:text="dddddddddddd"
+    android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/chapterTitle"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/chapterIcon"
+        android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="?attr/selectableItemBackground"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:padding="2dp"
-        android:textColor="#000"
-        android:layout_gravity="center"
-        tools:text="dddddddddddd"
-        android:textSize="18sp" />
-</FrameLayout>
-
+        android:src="@drawable/download_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"/>
+</RelativeLayout>
